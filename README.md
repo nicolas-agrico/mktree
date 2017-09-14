@@ -1,7 +1,7 @@
 # Installation
 Pour compiler, installez le paquet `build-essential` et tapez `make` dans le répertoire.
 
-Pour utiliser un compilation différent de celui par défaut, utilisez la variable d'environnement `CXX`, par exemple:
+Pour utiliser un compilateur différent de celui par défaut, utilisez la variable d'environnement `CXX`, par exemple:
 ```bash
 env CXX=clang++ make
 ```
