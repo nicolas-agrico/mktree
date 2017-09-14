@@ -10,3 +10,5 @@ $(TARGET): $(OBJS)
 
 clean:
 	$(RM) $(TARGET) $(OBJS)
+
+.PHONY: clean
