@@ -1,0 +1,8 @@
+# emacs temporary files
+*~
+\#*\#
+.\#*
+
+# compilation products
+*.o
+mktemp
