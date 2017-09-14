@@ -1,4 +1,4 @@
-OPTFLAGS = -Ofast -flto -fuse-linker-plugin
+OPTFLAGS = -O3 -flto
 CXXFLAGS = -std=c++14 -Wall -Wextra -pedantic $(OPTFLAGS)
 LDFLAGS = $(OPTFLAGS)
 CPPFLAGS = -D_POSIX_C_SOURCE=200809L
