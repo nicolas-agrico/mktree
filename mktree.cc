@@ -40,18 +40,43 @@ public:
   const int error = errno;
 };
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *envp[])
 {
+  std::string rootpath;
+
+  for (char **env = envp; *env; env++)
+  {
+    std::string line{*env};
+    auto eqndx = line.find_first_of('=');
+    if (eqndx == std::string::npos)
+    {
+      std::clog << "Mauvaise variable d'environnement " << line << std::endl;
+      continue;
+    }
+
+    const auto& name = line.substr(0, eqndx);
+    const auto& value = line.substr(eqndx+1, std::string::npos);
+
+    if (name == "ROOT"s)
+    {
+      rootpath = value;
+      break;
+    }
+  }
+  if (rootpath.empty())
+    rootpath = "root"s;
+
   if (argc != 2)
     throw std::invalid_argument{"Pas de listing spécifié."};
 
+  errno = 0;
   std::ifstream file{argv[1]};
   if (!file)
-    throw std::runtime_error{"Impossible d'ouvrir le fichier."};
+    throw syscall_error{"Impossible d'ouvrir le fichier."};
 
-  int ret = mkdir("root", 0755);
+  int ret = mkdir(rootpath.c_str(), 0755);
   if (ret < 0 and errno != EEXIST) throw syscall_error{nullptr};
-  int rootfd = open("root", O_DIRECTORY | O_PATH);
+  int rootfd = open(rootpath.c_str(), O_DIRECTORY | O_PATH);
   if (rootfd < 0) throw syscall_error{"Impossible d'ouvrir le dossier racine"};
 
   std::string filename;
